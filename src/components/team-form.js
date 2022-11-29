@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
+import Card from './card';
+import EditForm from './edit-form';
+
 
 
 class TeamForm extends Component {
@@ -9,7 +12,7 @@ class TeamForm extends Component {
             name: "",
             teamList: "",
             teams: [],
-            show: this.props.show
+            show: false
         }
 
     }
@@ -67,8 +70,37 @@ class TeamForm extends Component {
           .catch((err) => {
             console.log(err);
           });
-          console.log('this is URL',`${process.env.REACT_APP_BACKEND_URL}/pokeBuilder/${window.location.pathname.split("/")[2]}`)
+          
       };
+
+      
+      
+      handleDelete = (id) => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}` + '/pokeBuilder/' + id, {
+          method: 'DELETE',
+          // credentials: "include"
+        })
+        .then( res => {
+          const copyTeam = [...this.state.teams]
+          const findIndex = this.state.teams.findIndex(
+            (team) => team._id === id
+          )
+          copyTeam.splice(findIndex, 1)
+          this.setState({ teams: copyTeam})
+        })
+      }
+    
+      showModal = (event) => {
+        this.setState({
+          show: true
+        })
+      }
+    
+      hideModal = (event) => {
+        this.setState({
+          show: false
+        })
+      }
 
     render() { 
         return ( 
@@ -87,11 +119,8 @@ class TeamForm extends Component {
                 this.state.teams.map((teams, index) => {
                   return(
                     <div>
-                  {/* <Card key= {index} teams={teams}>
-                  */} 
-              
-                    {teams.name}
-                    {teams.teamList}
+                  <Card key= {index} teams={teams} handleDelete={this.handleDelete} />
+                  {/* <EditForm teams={teams}/> */}
                     </div>
                    
                   )

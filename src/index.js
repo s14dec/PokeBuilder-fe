@@ -50,41 +50,11 @@ let baseURL = `${process.env.REACT_APP_BACKEND_URL}`
     });
   };
 
-  handleDelete = (id) => {
-    fetch(baseURL + '/pokeBuilder/' + id, {
-      method: 'DELETE',
-      credentials: "include"
-    })
-    .then( res => {
-      const copyTeam = [...this.state.teams]
-      const findIndex = this.state.teams.findIndex(
-        (team) => team._id === id
-      )
-      copyTeam.splice(findIndex, 1)
-      this.setState({ teams: copyTeam})
-    })
-  }
-
-  showModal = (event) => {
-    this.setState({
-      show: true
-    })
-  }
-
-  hideModal = (event) => {
-    this.setState({
-      show: false
-    })
-  }
-
-
-
-
   render() {
     return (
       <div className="app">
         <Builder />
-        <TeamForm handleAddTeam={this.handleAddTeam} handleDelete={this.handleDelete} showModal={this.showModal} teams={this.state.teams} show={this.state.show}/>
+        <TeamForm handleAddTeam={this.handleAddTeam}  showModal={this.showModal} teams={this.state.teams} show={this.state.show}/>
         <EditForm />
       </div>
     
