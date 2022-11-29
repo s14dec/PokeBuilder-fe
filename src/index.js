@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Builder from "./components/builder";
 import "./styles.css";
 import TeamForm from "./components/team-form";
+import EditForm from "./components/edit-form";
 
 let baseURL = `${process.env.REACT_APP_BACKEND_URL}`
 
@@ -11,7 +12,8 @@ let baseURL = `${process.env.REACT_APP_BACKEND_URL}`
     super(props);
     this.state = {
       teams: [],
-      show: false
+      show: false,
+      index: null
     }
   }
 //test
@@ -50,7 +52,8 @@ let baseURL = `${process.env.REACT_APP_BACKEND_URL}`
 
   handleDelete = (id) => {
     fetch(baseURL + '/pokeBuilder/' + id, {
-      method: 'DELETE'
+      method: 'DELETE',
+      credentials: "include"
     })
     .then( res => {
       const copyTeam = [...this.state.teams]
@@ -82,6 +85,7 @@ let baseURL = `${process.env.REACT_APP_BACKEND_URL}`
       <div className="app">
         <Builder />
         <TeamForm handleAddTeam={this.handleAddTeam} handleDelete={this.handleDelete} showModal={this.showModal} teams={this.state.teams} show={this.state.show}/>
+        <EditForm />
       </div>
     
     );

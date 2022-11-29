@@ -11,8 +11,9 @@ class TeamForm extends Component {
             teams: [],
             show: this.props.show
         }
-    }
 
+    }
+ 
     componentDidMount() {
         this.loadList();
     }
@@ -33,7 +34,7 @@ class TeamForm extends Component {
           .then((res) => res.json())
           .then((resJson) => {
             this.setState({
-              teams: resJson.teams.reverse(),
+              teams: resJson.team.reverse(),
             });
             console.log('loadlist',this.state.teams)
           })
@@ -71,11 +72,35 @@ class TeamForm extends Component {
 
     render() { 
         return ( 
+          <div>
             <form onSubmit={this.handleSubmit}>      
                 <Input name="name" type="text" placeholder="Name" onChange={this.handleChange} value={this.state.name}/>  
                 <TextArea type='text' rows= '6' name="teamList" onChange={this.handleChange} placeholder="test" />
                 <Submit type="submit" value="POST"/>
             </form>
+          
+            <div>
+        
+              {this.state.teams&&console.log('TEAMS',this.state.teams)}
+                {this.state.teams?.length > 0
+                ?
+                this.state.teams.map((teams, index) => {
+                  return(
+                    <div>
+                  {/* <Card key= {index} teams={teams}>
+                  */} 
+              
+                    {teams.name}
+                    {teams.teamList}
+                    </div>
+                   
+                  )
+                })
+                : "No Teams"}
+                
+            </div> 
+
+          </div>
          )
     }
 }
