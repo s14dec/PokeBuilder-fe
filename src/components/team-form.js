@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 import Card from './card';
-import EditForm from './edit-form';
 
 
 
@@ -120,7 +119,6 @@ class TeamForm extends Component {
                   return(
                     <div>
                   <Card key= {index} teams={teams} handleDelete={this.handleDelete} />
-                  {/* <EditForm teams={teams}/> */}
                     </div>
                    
                   )

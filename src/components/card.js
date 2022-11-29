@@ -18,9 +18,9 @@ const Card = (props) => {
     <p>{teams.teamList}</p>
 
     <button onClick={()=>{
-        showModal(teams._id)
+        showModal()
     }}>EDIT</button>
-        {show && <EditForm  teams={teams} show={show} />}
+        {show && <EditForm  teams={teams}  />}
 
     <button onClick={()=>{
         handleDelete(teams._id)

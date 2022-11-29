@@ -55,7 +55,7 @@ let baseURL = `${process.env.REACT_APP_BACKEND_URL}`
       <div className="app">
         <Builder />
         <TeamForm handleAddTeam={this.handleAddTeam}  showModal={this.showModal} teams={this.state.teams} show={this.state.show}/>
-        <EditForm />
+      
       </div>
     
     );
