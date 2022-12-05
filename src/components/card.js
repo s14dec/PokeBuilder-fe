@@ -1,9 +1,11 @@
 import EditForm from "./edit-form";
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect,useNavigate} from 'react'
+import TeamForm from "./team-form";
 
 const Card = (props) => {
-    const { handleDelete,teams, handleEdit} = props;
+    const { handleDelete,teams, handleEditForm} = props;
     const[show, setShow] = useState(false)
+    const nevigate=useNavigate
     
    const showModal = (event) => {
         setShow(true)
@@ -16,11 +18,20 @@ const Card = (props) => {
   <div class="container">
     <h3>{teams.name}'s Team</h3>
     <p>{teams.teamList}</p>
-
-    <button onClick={()=>{
+    {/* <button onClick={()=>{
         showModal()
-    }}>EDIT</button>
-        {show && <EditForm  teams={teams}  />}
+    }}>POST</button>
+    {show && <TeamForm />} */}
+    <button onClick={()=>
+    {
+        // nevigate(`/pokeBuilder/EditForm/${teams._id}`)
+        {showModal()}
+    }
+    }>EDIT</button>
+        {show && <EditForm  
+        teams={teams} 
+        // handleEditForm={teams._id} 
+          />}
 
     <button onClick={()=>{
         handleDelete(teams._id)
@@ -31,9 +42,6 @@ const Card = (props) => {
 </div>
         
     )
-
-
-
 }
 
 export default Card;

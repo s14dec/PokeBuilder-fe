@@ -8,16 +8,17 @@ class TeamForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+          teams: [],
             name: "",
             teamList: "",
-            teams: [],
             show: false
         }
 
     }
  
     componentDidMount() {
-        this.loadList();
+        this.loadList()
+       
     }
 
     handleChange = (event) => {
@@ -38,7 +39,7 @@ class TeamForm extends Component {
             this.setState({
               teams: resJson.team.reverse(),
             });
-            console.log('loadlist',this.state.teams)
+            // console.log('loadlist',this.state.teams)
           })
           .catch((err) => {
             console.log(err);
@@ -54,7 +55,7 @@ class TeamForm extends Component {
             teamList: this.state.teamList
           }),
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":"application/json",
           },
         })
           .then((res) => res.json())
@@ -71,11 +72,9 @@ class TeamForm extends Component {
           });
           
       };
-
-      
       
       handleDelete = (id) => {
-        fetch(`${process.env.REACT_APP_BACKEND_URL}` + '/pokeBuilder/' + id, {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}`+'/pokeBuilder/'+id, {
           method: 'DELETE',
           // credentials: "include"
         })
@@ -103,38 +102,31 @@ class TeamForm extends Component {
 
     render() { 
         return ( 
+          
           <div>
+            {this.state.teams && console.log('TEAMS',this.state.teams)}
+            {this.state.teams?.length > 0
+              ?
+            this.state.teams.map((teams, index) => {
+            return(   
+                    <Card key= {index} teams={teams} handleDelete={this.handleDelete} />
+                  )}): "No Teams"  
+            }
             <form onSubmit={this.handleSubmit}>      
                 <Input name="name" type="text" placeholder="Name" onChange={this.handleChange} value={this.state.name}/>  
-                <TextArea type='text' rows= '6' name="teamList" onChange={this.handleChange} placeholder="test" />
+                <Input type='text' name="teamList" onChange={this.handleChange} placeholder="test" />
                 <Submit type="submit" value="POST"/>
             </form>
           
-            <div>
-        
-              {this.state.teams&&console.log('TEAMS',this.state.teams)}
-                {this.state.teams?.length > 0
-                ?
-                this.state.teams.map((teams, index) => {
-                  return(
-                    <div>
-                  <Card key= {index} teams={teams} handleDelete={this.handleDelete} />
-                    </div>
-                   
-                  )
-                })
-                : "No Teams"}
-                
-            </div> 
-
+            
           </div>
-         )
-    }
+                )
+              }
 }
  
 const Input = styled.input``;
 
-const TextArea = styled.textarea``;
+// const TextArea = styled.textarea``;
 
 const Submit = styled.input``;
 
