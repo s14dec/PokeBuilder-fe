@@ -4,30 +4,14 @@ import styled from 'styled-components';
 let baseURL = `${process.env.REACT_APP_BACKEND_URL}`
 
 const EditForm = (props) => {
-    console.log("this is the props",props)
+    // console.log("this is the props",props)
     const {teams} = props;
-   console.log(teams.name , teams.teamList)
+//    console.log(teams.name , teams.teamList)
 
     let {id} =useParams()
     const navigate = useNavigate
-    const [name, setName] = useState("")
-    const [teamList, setTeamList] = useState("")
-    // const [pokemonToEdit, setPokemonToEdit] = useState({
-    //     name :props.name,
-    //     teamList: props.teamList
-    // })
-    // console.log("This is pokemonToEdit",pokemonToEdit)
-   
-    const handleEditChange = (e) => {
-        // setPokemonToEdit({
-        //        ...pokemonToEdit,
-        //        [e.target.id]: e.target.value
-        // })
-        setTeamList({...teams,
-            [e.target.name]:e.target.value,
-            [e.target.teamList]:e.target.value
-        })
-   }
+    const [name, setName] = useState(props.teams)
+    const [teamList, setTeamList] = useState(props.teams)
 
 //    const getProfile = (id) => {
 //     fetch(baseURL + '/pokeBuilder'  + 'id')
@@ -74,42 +58,30 @@ const EditForm = (props) => {
     // }
 
     useEffect(() => {
-        // const {teams} = props
-        // getProfile(id)
-    //    setPokemonToEdit({
-    //     name :props.name,
-    //     teamList: props.teamList
-    //    })
-     
-      },[])
-    
-      const data = {name: name, teamList: teamList}
+    // setTeamList(props.teams)
+    setName(props.teams)
+      },[]) 
+
    const handleSubmit = (e) => {
         e.preventDefault();
-    const data ={name:teams.name, teamList:teams.teamList, id:teams.id}
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/pokeBuilder/`+ id, {
-        
+        // const data = {data:teamList}
+        console.log(teamList)
+    fetch(baseURL + '/pokeBuilder/'+ teamList._id, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data
-            //     {
-            //     name: pokemonToEdit.name,
-            //     teamList: pokemonToEdit.teamList
-            //     name:name,
-            //     teamList:teamList
-            // }
-            ),
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(teamList),
           }).then((res)=>res.json())
-          .then((data)=>{
-            console.log(data)
-            // navigate('/pokeBuilder')
-            // window.location.reload('/pokeBuilder')
-          })
-        //   .then( res => console.log('input', res.json()))
-        //   .catch((err) => {console.log(err)})
-
+        //   .then((data)=>{
+        //     // console.log(data)
+        //     navigate('/pokeBuilder')
+        //     window.location.reload('/pokeBuilder')
+        //   })
+          .then( res => console.log('input', res.json()))
+          .catch((err) => {console.log(err)})
+          .finally(()=>{
+            window.location.reload('/pokeBuilder')
+          }
+          );
       };
 
     
@@ -119,13 +91,12 @@ const EditForm = (props) => {
                 // ()=>handleSubmit(id)
                 }>      
                 <Input name="name" type="text" onChange=
-                {handleEditChange}
-                // {(e) => setName(e.target.value)} 
-                value={teams.name}/>  
+                // {handleEditChange}
+                {(e) => setTeamList({...name, name: e.target.value})} 
+                value={teamList.name}/>  
                 <Input  name="teamList" type="text"
-                onChange={handleEditChange}
-                value={teams.teamList}
-                // {(e)=>setTeamList(e.target.value)} value={props.teams.teamList}
+                onChange={(e) => setTeamList({...teamList, teamList: e.target.value})}
+                value={teamList.teamList}
                 />
                 {/* <TextArea type='text' rows= '6' name="teamList" onChange=
                 {(e)=> setTeamList(e.target.validationMessage)}

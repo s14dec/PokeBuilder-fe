@@ -69,7 +69,12 @@ class TeamForm extends Component {
           })
           .catch((err) => {
             console.log(err);
-          });
+            
+
+          }) .finally(()=>{
+            window.location.reload('/pokeBuilder')
+          }
+          );
           
       };
       
